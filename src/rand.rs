@@ -1,7 +1,9 @@
 use std::{convert::TryInto, ptr, time::SystemTime, u64};
 
-use num::{Bounded, Integer};
-use sdl2::{libc::RAND_MAX, sys::{rand, srand}};
+use sdl2::{
+    libc::RAND_MAX,
+    sys::{rand, srand},
+};
 
 /// Somewhat dumb wrapper over libc's rand.
 /// We really don't need cryptographically secure rands for this
@@ -31,7 +33,7 @@ impl Rand {
 
     pub fn rand_u8(&self) -> u8 {
         // The biggest value that T can represent
-        let scalar = RAND_MAX/255;
+        let scalar = RAND_MAX / 255;
         let r = unsafe { rand() / scalar };
         r as u8
     }
