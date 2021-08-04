@@ -72,4 +72,5 @@ impl<const H: usize, const W: usize> Noise<H, W> {
 
         (rand / initial_zoom) as u8
     }
+    
 }
