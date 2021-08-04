@@ -28,12 +28,12 @@ impl<const H: usize, const W: usize> Noise<H, W> {
         }
     }
 
-    pub fn smooth_noise(&self, x: i32, y: i32) -> u8 {
+    pub fn smooth_noise(&self, x: i32, y: i32, zoom_factor: f64) -> u8 {
         let width = W as i32;
         let height = H as i32;
 
         // Zooming in
-        let (x, y) = (x as f64 / 8.0, y as f64 / 8.0);
+        let (x, y) = (x as f64 / zoom_factor, y as f64 / zoom_factor);
         
         // Fractional parts of both
         let frac_x = x.fract();
@@ -59,5 +59,17 @@ impl<const H: usize, const W: usize> Noise<H, W> {
 
         // dbg!((255.0 * noise) as u8)
         noise as u8
+    }
+
+    pub fn turbulence(&self, x: i32, y: i32, mut zoom_factor: f64) -> u8 {
+        let mut rand = 0.0;
+        let initial_zoom = zoom_factor;
+
+        while zoom_factor >= 1.0 {
+            rand += (self.smooth_noise(x, y, zoom_factor) as f64) * zoom_factor/2.0;
+            zoom_factor /= 2.0;
+        }
+
+        (rand / initial_zoom) as u8
     }
 }

@@ -42,7 +42,7 @@ pub fn random_noise() {
 
         for i in 0..128*8 {
             for j in 0..128*8 {
-                let noise_u8 = noise.smooth_noise(i, j);
+                let noise_u8 = noise.turbulence(i, j, 16.0);
                 canvas.set_draw_color(Color::RGB(noise_u8, noise_u8, noise_u8));
                 let _ = canvas.draw_point(i, j);
             }
