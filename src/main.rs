@@ -57,6 +57,15 @@ pub fn random_noise() {
     }
 }
 
+/// Generates a marble-like texture pattern using Perlin noise and sinusoidal functions.
+/// 
+/// This function creates a real-time animated marble texture by:
+/// - Combining x and y coordinates with noise turbulence 
+/// - Using periodic sine waves to create the characteristic marble streaks
+/// - Applying configurable parameters for period, turbulence power, and zoom
+/// 
+/// The marble pattern is rendered to a 1024x1024 pixel canvas and continuously updated
+/// in a 60 FPS loop until the user presses Escape or closes the window.
 pub fn marble() {
     let mut canvas = Canvas::instantiate(128*8, 128*8);
     let mut event_pump = canvas

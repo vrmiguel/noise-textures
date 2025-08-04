@@ -28,6 +28,21 @@ impl<const H: usize, const W: usize> Noise<H, W> {
         }
     }
 
+    /// Generates smooth noise using bilinear interpolation between neighboring noise values.
+    /// 
+    /// This function samples the noise buffer at fractional coordinates by interpolating
+    /// between the four nearest integer grid points. It applies a zoom factor to scale
+    /// the sampling coordinates, allowing for different levels of detail in the noise.
+    /// The interpolation creates smooth transitions between noise values, eliminating
+    /// the blocky appearance of raw noise.
+    /// 
+    /// # Arguments
+    /// * `x` - The x coordinate for noise sampling
+    /// * `y` - The y coordinate for noise sampling
+    /// * `zoom_factor` - Zoom level affecting sampling density; higher values create finer detail
+    /// 
+    /// # Returns
+    /// A smoothed noise value between 0-255 at the given coordinates
     pub fn smooth_noise(&self, x: i32, y: i32, zoom_factor: f64) -> u8 {
         let width = W as i32;
         let height = H as i32;
@@ -61,6 +76,19 @@ impl<const H: usize, const W: usize> Noise<H, W> {
         noise as u8
     }
 
+    /// Generates turbulence noise by summing multiple octaves of smooth noise at different scales.
+    /// 
+    /// This function creates fractal noise by combining multiple layers of smooth noise,
+    /// each at half the frequency and twice the amplitude of the previous layer. The result
+    /// is a natural-looking turbulent pattern commonly used in procedural texture generation.
+    /// 
+    /// # Arguments
+    /// * `x` - The x coordinate for noise sampling
+    /// * `y` - The y coordinate for noise sampling  
+    /// * `zoom_factor` - Initial zoom level, higher values create finer detail
+    /// 
+    /// # Returns
+    /// A noise value between 0-255 representing the turbulence intensity at the given coordinates
     pub fn turbulence(&self, x: i32, y: i32, mut zoom_factor: f64) -> u8 {
         let mut rand = 0.0;
         let initial_zoom = zoom_factor;
